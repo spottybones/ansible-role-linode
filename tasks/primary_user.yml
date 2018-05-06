@@ -1,0 +1,15 @@
+---
+- name: Create primary user
+  user:
+    name: "{{ primary_user }}"
+    groups: sudo
+    password: "{{ primary_user_pass_crypt }}"
+    shell: /bin/bash
+    skeleton: /etc/skel
+    state: present
+
+- name: copy SSH key
+  authorized_key:
+    user: "{{ primary_user }}"
+    state: present
+    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"

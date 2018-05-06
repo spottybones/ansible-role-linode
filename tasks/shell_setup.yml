@@ -1,0 +1,8 @@
+---
+- name: enable vi-style line editing in shell
+  copy:
+    src: files/vi-line-editing.sh
+    dest: /etc/profile.d/vi-line-editing.sh
+    owner: root
+    group: root
+    mode: 0644

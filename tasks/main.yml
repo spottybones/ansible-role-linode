@@ -1,0 +1,10 @@
+---
+- name: configure Linode
+  become: True
+  block:
+    - include_tasks: primary_user.yml
+    - include_tasks: sshd.yml
+    - include_tasks: postfix_setup.yml
+    - include_tasks: set_hostname.yml
+    - include_tasks: shell_setup.yml
+  when: ansible_os_family == "Debian"

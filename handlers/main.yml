@@ -1,0 +1,20 @@
+---
+- name: restart sshd
+  become: True
+  service:
+    name: ssh
+    state: restarted
+
+- name: set-live-hostname
+  become: True
+  command: "hostname {{ ansible_host }}"
+
+- name: restart postfix
+  become: True
+  service:
+    name: postfix
+    state: restarted
+
+- name: regenerate aliases
+  become: True
+  command: /usr/bin/newaliases

@@ -1,0 +1,21 @@
+---
+- name: change default SSH port
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^Port "
+    line: "Port {{ linode_alternate_ssh_port }}"
+  notify: restart sshd
+
+- name: disable SSH PasswordAuthentication
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^PasswordAuthentication "
+    line: "PasswordAuthentication no"
+  notify: restart sshd
+
+- name: disable root login via SSH
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^PermitRootLogin "
+    line: "PermitRootLogin no"
+  notify: restart sshd

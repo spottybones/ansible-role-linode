@@ -1,0 +1,26 @@
+---
+- name: Install postfix & Mail Utils Packages
+  apt:
+    name: ["postfix", "mailutils"]
+    state: latest
+    update_cache: yes
+
+- name: Postfix listens on loopback device only
+  lineinfile:
+    path: /etc/postfix/main.cf
+    regexp: '^inet_interfaces '
+    line: 'inet_interfaces = loopback-only'
+  notify: restart postfix
+
+- name: Set postfix myhostname
+  lineinfile:
+    path: /etc/postfix/main.cf
+    regexp: '^myhostname '
+    line: 'myhostname = {{ ansible_host }}'
+  notify: restart postfix
+
+- name: forward root mail to sysadmin
+  lineinfile:
+    path: /etc/aliases
+    line: "root: {{ linode_sysadmin }}"
+  notify: regenerate aliases
